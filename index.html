@@ -8,6 +8,37 @@
   </head>
 
   <body>
+    00:00
+
+
+
+    <script>
+        let countdown = "00:00";
+
+        function initialiseTimer(timer, minutes) {
+            let splitTimer = timer.split(":");
+            let mins = splitTimer[0];
+            let seconds = splitTimer[1];
+            // if minutes is a whole number
+            if (minutes % 1 == 0) {
+                splitTimer[0] = minutes;
+            // otherwise use the minutes and turn the remainder into seconds 
+            } else {
+                splitTimer[0] = Math.floor(minutes);
+                splitTimer[1] = Math.round((minutes % 1) * 60)
+            }
+            return splitTimer.join(":");
+        }
+
+    </script>
 
   </body>
 </html>
+
+
+<!-- work timer counts to 0 from 25 minutes --> 
+<!-- break timer that counts to 0 from 5 minutes -->
+<!-- start/stop/cancel buttons -->
+
+<!-- stretch: alarm sound -->
+<!-- stretch: customisable time lengths -->
