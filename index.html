@@ -34,6 +34,7 @@
         let start = document.getElementById("start");
         let stop = document.getElementById("stop");
         let cancel = document.getElementById("cancel");
+        let countdownTimer;
 
         function initialiseTimer(timer, minutes) {
             let splitTimer = timer.split(":");
@@ -49,7 +50,6 @@
         }
 
         function decrementByOne(timer) {
-            console.log("decrementing by one");
             let splitTimer = timer.split(":");
             // minutes = splitTimer[0]
             // seconds = splitTimer[1]
@@ -57,7 +57,6 @@
             splitTimer[1] = parseInt(splitTimer[1]);
             if (splitTimer[1] > 0) {
                 splitTimer[1]--;
-                console.log(splitTimer[1]);
             } else {
                 splitTimer[1] = 59;
                 splitTimer[0]--;
@@ -76,10 +75,24 @@
 
         countdown.innerHTML = initialiseTimer(timer, 25);
 
-        start.addEventListener("click", () => {
-            setInterval(() => {
+        function startTimer() {
+            let timer = setInterval(() => {
                 countdown.innerHTML = decrementByOne(countdown.innerHTML);
-            }, 1000)
+            }, 1000);
+            return timer;
+        }
+
+        start.addEventListener("click", () => {
+            countdownTimer = startTimer();
+        });
+
+        stop.addEventListener("click", () => {
+            clearInterval(countdownTimer);
+        });
+
+        cancel.addEventListener("click", () => {
+            clearInterval(countdownTimer);
+            countdown.innerHTML = "00:00";
         });
 
 
