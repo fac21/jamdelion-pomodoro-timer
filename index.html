@@ -58,8 +58,10 @@
             if (splitTimer[1] > 0) {
                 splitTimer[1]--;
             } else {
-                splitTimer[1] = 59;
-                splitTimer[0]--;
+                if (splitTimer[0] > 0) {
+                    splitTimer[1] = 59;
+                    splitTimer[0]--;
+                }
             }
             // add new numbers to array and pad the zeros
             let newTimer = [];
