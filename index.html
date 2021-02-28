@@ -34,7 +34,8 @@
         let start = document.getElementById("start");
         let stop = document.getElementById("stop");
         let cancel = document.getElementById("cancel");
-        let countdownTimer;
+        let countdownTimerId;
+        let timeoutId;
 
         function initialiseTimer(timer, minutes) {
             let splitTimer = timer.split(":");
@@ -46,7 +47,12 @@
                 splitTimer[0] = Math.floor(minutes);
                 splitTimer[1] = Math.round((minutes % 1) * 60);
             }
-            return splitTimer.join(":");
+            // pad with zeros
+            let newTimer = [];
+            splitTimer.forEach((num) => {
+                newTimer.push(padZeros(num));
+            })
+            return newTimer.join(":");
         }
 
         function decrementByOne(timer) {
@@ -75,7 +81,16 @@
             return ("00" + num).slice(-2);
         }
 
-        countdown.innerHTML = initialiseTimer(timer, 25);
+        // countdown.innerHTML = initialiseTimer(timer, 25);
+        countdown.innerHTML = initialiseTimer(timer, 0.05);
+
+        function getTimePeriod(string) {
+            let splitTimer = string.split(":");
+            let minutes = parseInt(splitTimer[0]);
+            let seconds= parseInt(splitTimer[1]);
+            // returns time in milliseconds
+            return ((minutes * 60) + seconds) * 1000;
+        }
 
         function startTimer() {
             let timer = setInterval(() => {
@@ -84,16 +99,26 @@
             return timer;
         }
 
+        function startTimeout() {
+            let timeUntilChange = getTimePeriod(countdown.innerHTML);
+            let timeout = setTimeout(() => {
+                console.log("Timeout");
+            }, timeUntilChange);
+            return timeout;
+        }
+
         start.addEventListener("click", () => {
-            countdownTimer = startTimer();
+            countdownTimerId = startTimer();
+            timeoutId = startTimeout();
         });
 
         stop.addEventListener("click", () => {
-            clearInterval(countdownTimer);
+            clearInterval(countdownTimerId);
+            clearTimeout(timeoutId);
         });
 
         cancel.addEventListener("click", () => {
-            clearInterval(countdownTimer);
+            clearInterval(countdownTimerId);
             countdown.innerHTML = "00:00";
         });
 
