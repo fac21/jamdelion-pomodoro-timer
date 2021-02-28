@@ -5,30 +5,47 @@
     <meta name="viewport" content="width-device-width, initial-scale=1">
     <title>Pomodoro by Jamdelion</title>
     <!-- <link href="style.css" rel="stylesheet"> -->
+    <style>
+        * {
+          box-sizing: border-box;
+          margin: 0;
+        }
+    
+        body {
+          font-family: system-ui, sans-serif;
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+        }
+      </style>
   </head>
 
   <body>
-    00:00
+      <div class="timer">00:00</div>
+      <button id="start">Start</button>
+      <button id="stop">Stop</button>
+      <button id="cancel">Cancel</button>
 
 
 
     <script>
-        let countdown = "00:00";
+        let countdown = document.querySelector(".timer");
+        let timer = countdown.innerHTML;
 
         function initialiseTimer(timer, minutes) {
             let splitTimer = timer.split(":");
-            let mins = splitTimer[0];
-            let seconds = splitTimer[1];
             // if minutes is a whole number
             if (minutes % 1 == 0) {
                 splitTimer[0] = minutes;
             // otherwise use the minutes and turn the remainder into seconds 
             } else {
                 splitTimer[0] = Math.floor(minutes);
-                splitTimer[1] = Math.round((minutes % 1) * 60)
+                splitTimer[1] = Math.round((minutes % 1) * 60);
             }
             return splitTimer.join(":");
         }
+
+        countdown.innerHTML = initialiseTimer(timer, 25);
 
     </script>
 
