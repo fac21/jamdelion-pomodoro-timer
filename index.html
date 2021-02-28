@@ -21,95 +21,132 @@
   </head>
 
   <body>
-      <div class="timer">00:00</div>
-      <button id="start">Start</button>
+      <div class="workTimer">00:00</div>
+      <div class="playTimer">05:00</div>
+      <button id="startWork">Start Work</button>
+      <button id="startPlay">Start Play</button>
       <button id="stop">Stop</button>
       <button id="cancel">Cancel</button>
 
 
 
     <script>
-        let countdown = document.querySelector(".timer");
-        let timer = countdown.innerHTML;
-        let start = document.getElementById("start");
+        let workTimer = document.querySelector(".workTimer");
+        let workTime = workTimer.innerHTML;
+        let playTimer = document.querySelector(".playTimer");
+        let playTime = playTimer.innerHTML;
+        let startWork = document.getElementById("startWork");
+        let startPlay = document.getElementById("startPlay");
         let stop = document.getElementById("stop");
         let cancel = document.getElementById("cancel");
         let countdownTimerId;
         let timeoutId;
+        let workState;
+        const DEFAULT_PLAY_VALUE = 0.05;
+        const DEFAULT_WORK_VALUE = 0.05;
 
-        function initialiseTimer(timer, minutes) {
-            let splitTimer = timer.split(":");
+        function initialiseTimer(time, minutes) {
+            let splitTime = time.split(":");
             // if minutes is a whole number
             if (minutes % 1 == 0) {
-                splitTimer[0] = minutes;
+                splitTime[0] = minutes;
             // otherwise use the minutes and turn the remainder into seconds 
             } else {
-                splitTimer[0] = Math.floor(minutes);
-                splitTimer[1] = Math.round((minutes % 1) * 60);
+                splitTime[0] = Math.floor(minutes);
+                splitTime[1] = Math.round((minutes % 1) * 60);
             }
             // pad with zeros
-            let newTimer = [];
-            splitTimer.forEach((num) => {
-                newTimer.push(padZeros(num));
+            let newTime = [];
+            splitTime.forEach((num) => {
+                newTime.push(padZeros(num));
             })
-            return newTimer.join(":");
+            return newTime.join(":");
         }
 
-        function decrementByOne(timer) {
-            let splitTimer = timer.split(":");
-            // minutes = splitTimer[0]
-            // seconds = splitTimer[1]
-            splitTimer[0] = parseInt(splitTimer[0]);
-            splitTimer[1] = parseInt(splitTimer[1]);
-            if (splitTimer[1] > 0) {
-                splitTimer[1]--;
+        function decrementByOne(time) {
+            let splitTime = time.split(":");
+            // minutes = splitTime[0]
+            // seconds = splitTime[1]
+            splitTime[0] = parseInt(splitTime[0]);
+            splitTime[1] = parseInt(splitTime[1]);
+            if (splitTime[1] > 0) {
+                splitTime[1]--;
             } else {
-                if (splitTimer[0] > 0) {
-                    splitTimer[1] = 59;
-                    splitTimer[0]--;
+                if (splitTime[0] > 0) {
+                    splitTime[1] = 59;
+                    splitTime[0]--;
                 }
             }
             // add new numbers to array and pad the zeros
-            let newTimer = [];
-            splitTimer.forEach((num) => {
-                newTimer.push(padZeros(num));
+            let newTime = [];
+            splitTime.forEach((num) => {
+                newTime.push(padZeros(num));
             })
-            return newTimer.join(":");
+            return newTime.join(":");
         }
 
         function padZeros(num) {
             return ("00" + num).slice(-2);
         }
 
-        // countdown.innerHTML = initialiseTimer(timer, 25);
-        countdown.innerHTML = initialiseTimer(timer, 0.05);
+        workTimer.innerHTML = initialiseTimer(workTime, DEFAULT_WORK_VALUE);
 
         function getTimePeriod(string) {
-            let splitTimer = string.split(":");
-            let minutes = parseInt(splitTimer[0]);
-            let seconds= parseInt(splitTimer[1]);
+            let splitTime = string.split(":");
+            let minutes = parseInt(splitTime[0]);
+            let seconds= parseInt(splitTime[1]);
             // returns time in milliseconds
             return ((minutes * 60) + seconds) * 1000;
         }
 
-        function startTimer() {
+        function startTimer(timerType) {
             let timer = setInterval(() => {
-                countdown.innerHTML = decrementByOne(countdown.innerHTML);
+                timerType.innerHTML = decrementByOne(timerType.innerHTML);
             }, 1000);
             return timer;
         }
 
-        function startTimeout() {
-            let timeUntilChange = getTimePeriod(countdown.innerHTML);
+        function startTimeout(timerType) {
+            let timeUntilChange = getTimePeriod(timerType.innerHTML);
             let timeout = setTimeout(() => {
-                console.log("Timeout");
-            }, timeUntilChange);
+                clearInterval(countdownTimerId);
+                startNextTimer();
+            }, timeUntilChange + 1);
             return timeout;
         }
 
-        start.addEventListener("click", () => {
-            countdownTimerId = startTimer();
-            timeoutId = startTimeout();
+        function startNextTimer() {
+            if (workState == "work") {
+                workState = "play";
+                clearTimeout(timeoutId);
+                playTimer.innerHTML = initialiseTimer(playTime, DEFAULT_PLAY_VALUE);
+                workTimer.innerHTML = initialiseTimer(workTime, DEFAULT_WORK_VALUE);
+                countdownTimerId = startTimer(playTimer);
+                timeoutId = startTimeout(playTimer);
+            } else {
+                workState = "work";
+                clearTimeout(timeoutId);
+                workTimer.innerHTML = initialiseTimer(workTime, DEFAULT_WORK_VALUE);
+                playTimer.innerHTML = initialiseTimer(playTime, DEFAULT_PLAY_VALUE);
+                countdownTimerId = startTimer(workTimer);
+                timeoutId = startTimeout(workTimer);
+            }
+        }
+
+        startWork.addEventListener("click", () => {
+            workState = "work";
+            clearInterval(countdownTimerId);
+            clearTimeout(timeoutId);
+            countdownTimerId = startTimer(workTimer);
+            timeoutId = startTimeout(workTimer);
+        });
+
+        startPlay.addEventListener("click", () => {
+            workState = "play";
+            clearInterval(countdownTimerId);
+            clearTimeout(timeoutId);
+            countdownTimerId = startTimer(playTimer);
+            timeoutId = startTimeout(playTimer);
         });
 
         stop.addEventListener("click", () => {
