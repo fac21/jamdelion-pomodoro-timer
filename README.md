@@ -14,6 +14,10 @@ This week we had to make a [Pomodoro](https://en.wikipedia.org/wiki/Pomodoro_Tec
 * [ ] Customisable lengths of time for work/break
 * [ ] Play an alarm sound to make it obvious the time is up
 
+### My timer
+
+![Screenshot of workTimer in action](worktimer.png)
+
 ## My work process (rough notes)
 
 1. Initialised the html file first, and used the console to try and figure out some functionality.
