@@ -131,14 +131,18 @@
 
         function startNextTimer() {
             if (workState == "work") {
-                workState = "play";
+                console.log(workState);
+                workState = changeWorkState();
+                console.log(workState);
                 clearTimeout(timeoutId);
                 playTimer.innerHTML = initialiseTimer(playTime, DEFAULT_PLAY_VALUE);
                 workTimer.innerHTML = initialiseTimer(workTime, DEFAULT_WORK_VALUE);
                 countdownTimerId = startTimer(playTimer);
                 timeoutId = startTimeout(playTimer);
             } else {
-                workState = "work";
+                console.log(workState);
+                workState = changeWorkState();
+                console.log(workState);
                 clearTimeout(timeoutId);
                 workTimer.innerHTML = initialiseTimer(workTime, DEFAULT_WORK_VALUE);
                 playTimer.innerHTML = initialiseTimer(playTime, DEFAULT_PLAY_VALUE);
@@ -147,8 +151,22 @@
             }
         }
 
+        function changeWorkState() {
+            console.log("changeWorkState");
+            if (workState == "play") {
+                console.log("was play, about to be work");
+                document.body.style.backgroundColor = "steelblue";
+                return "work";
+            } else {
+                console.log("was work, about to be play");
+                document.body.style.backgroundColor = "hotpink";
+                return "play";
+            }
+        }
+
         startWork.addEventListener("click", () => {
             workState = "work";
+            document.body.style.backgroundColor = "steelblue";
             clearInterval(countdownTimerId);
             clearTimeout(timeoutId);
             countdownTimerId = startTimer(workTimer);
@@ -157,6 +175,7 @@
 
         startPlay.addEventListener("click", () => {
             workState = "play";
+            document.body.style.backgroundColor = "hotpink";
             clearInterval(countdownTimerId);
             clearTimeout(timeoutId);
             countdownTimerId = startTimer(playTimer);
@@ -173,7 +192,6 @@
             workTimer.innerHTML = "00:00";
             playTimer.innerHTML = "00:00";
         });
-
 
     </script>
 

@@ -141,7 +141,6 @@
         function getTimePeriod(timer) {
             let minutes;
             let seconds;
-            console.log("timer in getTimePeriod", timer);
             if (timer.element.querySelector(".minutes").value) {
                 minutes = timer.element.querySelector(".minutes").value;
             } else {
@@ -152,7 +151,6 @@
             } else {
                 seconds = timer.default;
             }
-            console.log("minutes", minutes);
             minutes = parseInt(minutes);
             seconds = parseInt(seconds);
             // returns time in milliseconds
@@ -162,16 +160,13 @@
         function startTimer(timerType) {
             console.log("startTimer");
             let timer = setInterval(() => {
-                // timerType = decrementByOne(timerType);
                 decrementByOne(timerType);
             }, 1000);
-            // console.log(timer);
             return timer;
         }
 
         function startTimeout(timerType) {
             let timeUntilChange = getTimePeriod(timerType);
-            console.log("timeuntilchange", timeUntilChange);
             let timeout = setTimeout(() => {
                 clearInterval(countdownTimerId);
                 startNextTimer();

@@ -62,3 +62,7 @@ How to easily see other people's code in action from github?
 Turn into inputs (lots of handy attributes for placeholder values and min/max values)
 
 learnt = can do queryselector on elements other than document (e.g. to access childnodes. )
+
+tried stuff with checkboxes to get style to change -- need to track variable but no such thing as an event listener for variable state. 
+Checkbox hack? But only works for user inputs. 
+Eventually wrote new function that changed body style and variable in same function.
