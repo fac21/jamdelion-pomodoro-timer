@@ -30,13 +30,19 @@
             width: 8vw;
             min-width: 100px;
         }
+
+        .hidden {
+            display: none;
+        }
+
       </style>
   </head>
 
   <body>
         <div class="content">
-            <div class="workTimer">25:00</div>
-            <div class="playTimer">05:00</div>
+            <div class="placeholderTimer">05:00</div>
+            <div class="workTimer hidden">25:00</div>
+            <div class="playTimer hidden">05:00</div>
             <button id="startWork">Start Work</button>
             <button id="startPlay">Start Play</button>
             <button id="stop">Stop</button>
@@ -49,6 +55,7 @@
         let workTime = workTimer.innerHTML;
         let playTimer = document.querySelector(".playTimer");
         let playTime = playTimer.innerHTML;
+        let placeholder = document.querySelector(".placeholderTimer");
         let startWork = document.getElementById("startWork");
         let startPlay = document.getElementById("startPlay");
         let stop = document.getElementById("stop");
@@ -156,10 +163,14 @@
             if (workState == "play") {
                 console.log("was play, about to be work");
                 document.body.style.backgroundColor = "steelblue";
+                playTimer.classList.toggle("hidden");
+                workTimer.classList.toggle("hidden");
                 return "work";
             } else {
                 console.log("was work, about to be play");
                 document.body.style.backgroundColor = "hotpink";
+                workTimer.classList.toggle("hidden");
+                playTimer.classList.toggle("hidden");
                 return "play";
             }
         }
@@ -167,6 +178,16 @@
         startWork.addEventListener("click", () => {
             workState = "work";
             document.body.style.backgroundColor = "steelblue";
+            if (workTimer.classList.contains("hidden")) {
+                workTimer.classList.toggle("hidden");
+                placeholder.classList.toggle("hidden");
+            }
+            if (!(playTimer.classList.contains("hidden"))) {
+                playTimer.classList.toggle("hidden");
+            }
+            if (!(placeholder.classList.contains("hidden"))) {
+                placeholder.classList.toggle("hidden");
+            }
             clearInterval(countdownTimerId);
             clearTimeout(timeoutId);
             countdownTimerId = startTimer(workTimer);
@@ -176,6 +197,16 @@
         startPlay.addEventListener("click", () => {
             workState = "play";
             document.body.style.backgroundColor = "hotpink";
+            if (playTimer.classList.contains("hidden")) {
+                playTimer.classList.toggle("hidden");
+                placeholder.classList.toggle("hidden");
+            }
+            if (!(workTimer.classList.contains("hidden"))) {
+                workTimer.classList.toggle("hidden");
+            }
+            if (!(placeholder.classList.contains("hidden"))) {
+                placeholder.classList.toggle("hidden");
+            }
             clearInterval(countdownTimerId);
             clearTimeout(timeoutId);
             countdownTimerId = startTimer(playTimer);
@@ -189,19 +220,22 @@
 
         cancel.addEventListener("click", () => {
             clearInterval(countdownTimerId);
-            workTimer.innerHTML = "00:00";
-            playTimer.innerHTML = "00:00";
+            clearTimeout(timeoutId);
+            placeholder.innerHTML = "00:00";
+            playTimer.innerHTML = initialiseTimer(playTime, DEFAULT_PLAY_VALUE);
+            workTimer.innerHTML = initialiseTimer(workTime, DEFAULT_WORK_VALUE);
+            if (!(playTimer.classList.contains("hidden"))) {
+                playTimer.classList.toggle("hidden");
+            }
+            if (!(workTimer.classList.contains("hidden"))) {
+                workTimer.classList.toggle("hidden");
+            }
+            if (placeholder.classList.contains("hidden")) {
+                placeholder.classList.toggle("hidden");
+            }
         });
 
     </script>
 
   </body>
 </html>
-
-
-<!-- work timer counts to 0 from 25 minutes --> 
-<!-- break timer that counts to 0 from 5 minutes -->
-<!-- start/stop/cancel buttons -->
-
-<!-- stretch: alarm sound -->
-<!-- stretch: customisable time lengths -->

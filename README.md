@@ -1,6 +1,15 @@
 # jamdelion-pomodoro-timer
 A pomodoro timer written in vanilla JS for FAC21's pre-course.
 
+
+
+<!-- work timer counts to 0 from 25 minutes -->
+<!-- break timer that counts to 0 from 5 minutes -->
+<!-- start/stop/cancel buttons -->
+
+<!-- stretch: alarm sound -->
+<!-- stretch: customisable time lengths -->
+
 **ROUGH NOTES FOR README:**
 
 Initialised a html file
