@@ -1,77 +1,87 @@
-# jamdelion-pomodoro-timer
-A pomodoro timer written in vanilla JS for FAC21's pre-course.
+# FAC Pre-course: Week 4
+## Consolidating the pre-course work! :sweat_smile:
 
+### Task :star:
 
+This week we had to make a [Pomodoro](https://en.wikipedia.org/wiki/Pomodoro_Technique) timer, featuring: 
 
-<!-- work timer counts to 0 from 25 minutes -->
-<!-- break timer that counts to 0 from 5 minutes -->
-<!-- start/stop/cancel buttons -->
+- A “work” timer that counts down to zero (usually from 25 minutes)
+- A “break” timer that counts down to zero (usually from 5 minutes)
+- Buttons to start a session, pause the timer, or cancel the session and restart.
 
-<!-- stretch: alarm sound -->
-<!-- stretch: customisable time lengths -->
+#### Stretch goals
 
-**ROUGH NOTES FOR README:**
+* [ ] Customisable lengths of time for work/break
+* [ ] Play an alarm sound to make it obvious the time is up
 
-Initialised a html file
-Used the console to try and figure out the functionality
-write "initialise timer" function - involved some maths, like modulo and the Math.round and Math.floor methods.
+## My work process (rough notes)
 
-added some basic html elements - buttons and timer class (00:00 inner html)
-assign elements to DOM variables - now timer is initialised with 25 on start. 
+1. Initialised the html file first, and used the console to try and figure out some functionality.
+1. I wrote an `initialiseTimer` function, which involved some maths, like modulo and the `Math.round` and `Math.floor` methods to countdown the minutes.
+1. I added some basic html elements and decided to use `innerHTML` to display and change the time.
+1. Wrote the `decrementByOne` function
+1. Tried adding event listener to start button to run "decrementbyone" function every second
+1. Used `setTimeout` to kick off the next timer after the requisite time period.
+1. Made two timers, a work timer and play timer, and made function "start next timer", to try and not have too much logic in one place. 
+1. Had a go at the stretch goal of using inputs to the timer. I wanted the countdown to also be happening inside the input box. **There were lots of handy attributes for placeholder values and min/max values** :raised-hands:
+1. Tried to get the style to change based on the page "listening" to whether the workState variable had changed - turned out that this wasn't really possible (after chasing a checkbox hack down a long rabbit hole... :rabbit:). 
+1. Eventually wrote a new function that changed the body style and the workState variable in the same function. :relieved:
 
-decrement by one function
+### Handy tricks :sparkle: 
+Lots of console logging for when it doesn't work:
 
-try adding event listener to start button to run "decrementbyone" function every second
-
-lots of console logging for when it doesn't work 
+``` javascript
 start.addEventListener("click", () => {
             console.log(timer);
             setInterval(() => {
                 timer = decrementByOne(timer);
             }, 1000)
             console.log(timer);
+```
 
-to get clearInterval to work, had to move the setInterval into its own variable (since it returns the id of the timer).
-        let countdownTimer = setInterval(() => {
-                countdown.innerHTML = decrementByOne(countdown.innerHTML);
-            }, 1000);
+### Problems encountered 
 
-instead of
+-  The timer was able to be stopped, but not restarted.
+- - The countdownTimer was out of scope. 
+:bulb: Solved by defining in a bunch of variables at the top of file. 
+
+- Timer goes into negative numbers
+:bulb: Add extra if loop in `decrementByOne` to catch this case. 
+
+- Funky things were happening when I tried to initialise a new timer inside the startTimeout function --> think there was just one timer at this point (it was decrementing by 2 seconds at a time)
+
+- Originally, I had "if work is 0", then start other timer but realised I needed a variable to keep hold of what time period we were in. (work state). 
+
+### What I learned :muscle: 
+
+:bulb: To get `clearInterval` to work, I had to move the `setInterval` into its own variable (since it returns the id of the timer).
+``` javascript
+let countdownTimer = setInterval(() => {
+        countdown.innerHTML = decrementByOne(countdown.innerHTML);
+    }, 1000);
+``` 
+instead of:
+``` javascript
         // start.addEventListener("click", () => {
         //     setInterval(() => {
         //         countdown.innerHTML = decrementByOne(countdown.innerHTML);
         //     }, 1000)
         // });
+```
 
-could stop the timer but then not restart it - countdownTimer out of scope. Solved by defining in a bunch of variables at the top of file. 
+:bulb: You can use `.querySelector()` on elements other than `Document` (to access childnodes).
 
-Goes into negative numbers - add extra if loop
+:bulb: There's no such thing as an event listener for variable states. 
 
-Use setTimeout to kick off a new thing after the requisite time period
+:bulb: `addEventListener("change", ...)` only works on checkboxes for when the *user* has changed the checkbox, not for if the JS changes it. 
 
-Funky things happening when tried to initialise a new timer inside the startTimeout function --> think there was just one timer at this point (it was decrementing by 2 seconds at a time)
+### Questions 
 
-function startTimeout() {
-            let timeUntilChange = getTimePeriod(countdown.innerHTML);
-            let timeout = setTimeout(() => {
-                console.log("Timeout");
-                countdown.innerHTML = initialiseTimer(timer, 0.1);
-                countdownTimerId = startTimer();
-                timeoutId = startTimeout();
-            }, timeUntilChange);
-            return timeout;
-        }
+:question: How can I easily see other people's code **in action** from GitHub? Is it only possible if the code is deployed somewhere? (or if clone and run it locally?)
 
-Made two timers, a work timer and play timer, and invented fictional function "start next timer", to try and not have too much logic in one place. 
 
-originally had "if work is 0", then start other timer but realised I needed a variable to keep hold of what time period we were in. (work state)
 
-How to easily see other people's code in action from github?
 
-Turn into inputs (lots of handy attributes for placeholder values and min/max values)
 
-learnt = can do queryselector on elements other than document (e.g. to access childnodes. )
 
-tried stuff with checkboxes to get style to change -- need to track variable but no such thing as an event listener for variable state. 
-Checkbox hack? But only works for user inputs. 
-Eventually wrote new function that changed body style and variable in same function.
+
