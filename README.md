@@ -23,7 +23,7 @@ This week we had to make a [Pomodoro](https://en.wikipedia.org/wiki/Pomodoro_Tec
 1. Tried adding event listener to start button to run "decrementbyone" function every second
 1. Used `setTimeout` to kick off the next timer after the requisite time period.
 1. Made two timers, a work timer and play timer, and made function "start next timer", to try and not have too much logic in one place. 
-1. Had a go at the stretch goal of using inputs to the timer. I wanted the countdown to also be happening inside the input box. **There were lots of handy attributes for placeholder values and min/max values** :raised-hands:
+1. Had a go at the stretch goal of using inputs to the timer. I wanted the countdown to also be happening inside the input box. **There were lots of handy attributes for placeholder values and min/max values** :raised_hands:
 1. Tried to get the style to change based on the page "listening" to whether the workState variable had changed - turned out that this wasn't really possible (after chasing a checkbox hack down a long rabbit hole... :rabbit:). 
 1. Eventually wrote a new function that changed the body style and the workState variable in the same function. :relieved:
 
