@@ -15,19 +15,33 @@
           font-family: system-ui, sans-serif;
           padding: 1.5rem;
           display: flex;
-          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            width: 8vw;
+            min-width: 100px;
         }
       </style>
   </head>
 
   <body>
-      <div class="workTimer">25:00</div>
-      <div class="playTimer">05:00</div>
-      <button id="startWork">Start Work</button>
-      <button id="startPlay">Start Play</button>
-      <button id="stop">Stop</button>
-      <button id="cancel">Cancel</button>
-
+        <div class="content">
+            <div class="workTimer">25:00</div>
+            <div class="playTimer">05:00</div>
+            <button id="startWork">Start Work</button>
+            <button id="startPlay">Start Play</button>
+            <button id="stop">Stop</button>
+            <button id="cancel">Cancel</button>
+        </div>
 
 
     <script>
