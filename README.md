@@ -18,6 +18,8 @@ This week we had to make a [Pomodoro](https://en.wikipedia.org/wiki/Pomodoro_Tec
 
 ![Screenshot of workTimer in action](worktimer.png)
 
+![Screenshot of playTimer in action](playtimer.png)
+
 ## My work process (rough notes)
 
 1. Initialised the html file first, and used the console to try and figure out some functionality.
